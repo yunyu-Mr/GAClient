@@ -1,0 +1,14 @@
+prefix=/home/huangant/myprog/gaminganywhere/deps.android
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: libavformat
+Description: FFmpeg container format library
+Version: 55.33.100
+Requires: libavcodec = 55.52.102
+Requires.private: 
+Conflicts:
+Libs: -L${libdir}  -lavformat -lx264 -lvpx -lvpx -lvpx -lvpx -lvorbisenc -lvorbis -logg -ltheoraenc -ltheoradec -logg -L/home/huangant/myprog/gaminganywhere/deps.android/lib -lopus -lmp3lame -lm -lz -pthread
+Libs.private: 
+Cflags: -I${includedir}
