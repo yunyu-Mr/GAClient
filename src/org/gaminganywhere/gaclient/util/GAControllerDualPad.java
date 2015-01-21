@@ -199,19 +199,7 @@ public class GAControllerDualPad extends GAController implements
 		keyLeft = myKeyLeft;
 		keyRight = myKeyRight;
 	}
-
-/************************************************************************************************************************/
-	private void Joystick(int Keycode){ 
-		switch(Keycode){ 
-			case 19:
-			this.sendKeyEvent(true, SDL2.Scancode.UP, 0, 0, 0);
-			break;
-		
-		}
-	}
 	
-/************************************************************************************************************************/
-
 	private int mouseButton = -1;
 	private void emulateMouseButtons(int action, int part) {
 		switch(action) {
