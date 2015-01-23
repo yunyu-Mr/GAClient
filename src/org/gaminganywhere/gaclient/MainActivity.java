@@ -29,6 +29,7 @@ import org.gaminganywhere.gaclient.util.GAControllerN64;
 import org.gaminganywhere.gaclient.util.GAControllerPSP;
 import org.gaminganywhere.gaclient.util.GAControllerPadABXY;
 import org.gaminganywhere.gaclient.util.GAControllerNDS;
+import org.gaminganywhere.gaclient.util.BluetoothController;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -308,6 +309,12 @@ public class MainActivity extends Activity implements
 			item = new HashMap<String,String>();
 			item.put("name", GAControllerPSP.getName());
 			item.put("desc", GAControllerPSP.getDescription());
+			list_control.add(item);
+			
+			//*********SMTech************
+			item = new HashMap<String , String>();
+			item.put("name", BluetoothController.getName());
+			item.put("desc", BluetoothController.getDescription());
 			list_control.add(item);
 			//
 //			item = new HashMap<String,String>();

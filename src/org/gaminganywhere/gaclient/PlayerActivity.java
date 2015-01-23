@@ -30,7 +30,11 @@ import org.gaminganywhere.gaclient.util.GAControllerNDS;
 import org.gaminganywhere.gaclient.util.GAControllerPSP;
 import org.gaminganywhere.gaclient.util.GAControllerPadABXY;
 
+//SMTech 2015-01-21
+import org.gaminganywhere.gaclient.util.BluetoothController;
+
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -212,7 +216,14 @@ public class PlayerActivity extends Activity implements SurfaceHolder.Callback, 
 				controller = new GAControllerPadABXY(this);
 			} else if(cname.equals(GAControllerPSP.getName())) {
 				controller = new GAControllerPSP(this);
-			} else {
+			} 
+			//SMTech 2015-01-21
+			else if (cname.equals(BluetoothController.getName())) {
+				BluetoothController btController = new BluetoothController(this);
+				btController.CreateBluetooth();
+				controller = new GAController(this);
+			}
+			else {
 				controller = new GAControllerBasic(this);
 			}
 			controller.setViewDimension(viewWidth, viewHeight);
