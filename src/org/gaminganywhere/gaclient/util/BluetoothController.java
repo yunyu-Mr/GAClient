@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 public class BluetoothController{
@@ -40,7 +41,7 @@ public class BluetoothController{
     // Local Bluetooth adapter
     private BluetoothAdapter mBluetoothAdapter = null;
     // Member object for the chat services
-    private BluetoothService mChatService = null;
+    private BluetoothService mBluetoothService = null;
     
     //Controller
     private Context context = null;
@@ -84,21 +85,77 @@ public class BluetoothController{
             act.startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         // Otherwise, setup
         } 
-        Log.i(TAG, "bt enable");
-//        else {
-//            if (mChatService == null) 
-//            	setupChat();
-//        }
+        else {
+            if (mBluetoothService == null) 
+            	mBluetoothService = new BluetoothService(mHandler);
+            	
+        }
+        if (mBluetoothService != null) {
+        	if (mBluetoothService.getState() == BluetoothService.STATE_NONE) {
+        		mBluetoothService.start();
+        	}
+        }
 	}
 	
-	public void onActivityResult(int requestCode, int resultCode, Intent data){
-		switch (requestCode) {
-		case REQUEST_ENABLE_BT:
-			if (resultCode == Activity.RESULT_OK){
-				//setup
-			}
-		}
-	}
+    /**
+     * The Handler that gets information back from the BluetoothChatService
+     * mHandler负责处理与后台BluetoothService的通信
+ 	 * 后台Service将msg发到这里来进行处理
+     */
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+            case MESSAGE_STATE_CHANGE:
+                if(D) Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
+//                switch (msg.arg1) {
+//                case BluetoothService.STATE_CONNECTED:
+//                    setStatus(getString(R.string.title_connected_to, mConnectedDeviceName));
+////                    mConversationArrayAdapter.clear();
+//                    break;
+//                case BluetoothService.STATE_CONNECTING:
+//                    setStatus(R.string.title_connecting);
+//                    break;
+//                case BluetoothService.STATE_LISTEN:
+//                case BluetoothService.STATE_NONE:
+//                    setStatus(R.string.title_not_connected);
+//                    break;
+//                }
+                break;
+            case MESSAGE_WRITE:
+                byte[] writeBuf = (byte[]) msg.obj;
+                // construct a string from the buffer
+                String writeMessage = new String(writeBuf);
+//                mConversationArrayAdapter.add("Me:  " + writeMessage);
+                break;
+            case MESSAGE_READ:
+                byte[] readBuf = (byte[]) msg.obj;
+                // construct a string from the valid bytes in the buffer
+                String readMessage = new String(readBuf, 0, msg.arg1);
+//                mConversationArrayAdapter.add(mConnectedDeviceName+":  " + readMessage);
+                break;
+            case MESSAGE_DEVICE_NAME:
+                // save the connected device's name
+                mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);
+                Toast.makeText(getContext(), "Connected to "
+                               + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
+                break;
+            case MESSAGE_TOAST:
+                Toast.makeText(getContext(), msg.getData().getString(TOAST),
+                               Toast.LENGTH_SHORT).show();
+                break;
+            }
+        }
+    };
+	
+//	public void onActivityResult(int requestCode, int resultCode, Intent data){
+//		switch (requestCode) {
+//		case REQUEST_ENABLE_BT:
+//			if (resultCode == Activity.RESULT_OK){
+//				//setup
+//			}
+//		}
+//	}
 	
 	
 
