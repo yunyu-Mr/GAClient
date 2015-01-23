@@ -18,6 +18,10 @@ import android.bluetooth.BluetoothDevice;
 
 import android.util.Log;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
+
 public class BluetoothController extends GAController{
 	// Debugging
     private static final String TAG = "BluetoothController";
@@ -126,14 +130,15 @@ public class BluetoothController extends GAController{
 //                    break;
 //                }
                 break;
-            case MESSAGE_WRITE:
-                byte[] writeBuf = (byte[]) msg.obj;
-                // construct a string from the buffer
-                String writeMessage = new String(writeBuf);
-//                mConversationArrayAdapter.add("Me:  " + writeMessage);
-                break;
+//            case MESSAGE_WRITE:
+//                byte[] writeBuf = (byte[]) msg.obj;
+//                // construct a string from the buffer
+//                String writeMessage = new String(writeBuf);
+////                mConversationArrayAdapter.add("Me:  " + writeMessage);
+//                break;
             case MESSAGE_READ:
                 byte[] readBuf = (byte[]) msg.obj;
+                controlSense(readBuf);
                 // construct a string from the valid bytes in the buffer
                 String readMessage = new String(readBuf, 0, msg.arg1);
 //                mConversationArrayAdapter.add(mConnectedDeviceName+":  " + readMessage);
@@ -151,6 +156,24 @@ public class BluetoothController extends GAController{
             }
         }
     };
+    
+    
+    private void controlSense(byte[] buffer) {
+        ByteArrayInputStream byteInput = new ByteArrayInputStream(buffer);
+        DataInputStream dataInput = new DataInputStream(byteInput);
+        try{
+        	int head = dataInput.readInt();
+        	switch (head) {
+        	case Constants.MOUSE_KEY:
+        		int mouseButton = dataInput.readInt();
+        		this.sendMouseKey(true, mouseButton, this.getMouseX(), this.getMouseY() );
+        		this.sendMouseKey(false, mouseButton, this.getMouseX(), this.getMouseY());
+        		break;
+        	}
+        }catch (IOException e) {
+        	Log.e(TAG, "io error", e);
+        }
+    }
 	
 //	public void onActivityResult(int requestCode, int resultCode, Intent data){
 //		switch (requestCode) {

@@ -442,23 +442,24 @@ public class BluetoothService {
                 try {
                     // Read from the InputStream
                     bytes = mmInStream.read(buffer);
-
-                	ByteArrayInputStream bis = new ByteArrayInputStream(buffer);
-                	DataInputStream dis = new DataInputStream(bis);
-                	int head = dis.readInt();
-                	switch (head) {
-                	case Constants.TEXT_DATA:
-                		// Send the obtained bytes to the UI Activity
-                        mHandler.obtainMessage(BluetoothController.MESSAGE_READ, bytes, -1, buffer)
-                                .sendToTarget();
-                		break;
-                	case Constants.CONTROL_DATA:
-                		int i = dis.readInt();
-                    	float f = dis.readFloat();
-                    	double d = dis.readDouble();
-                    	System.out.print(i);
-                		break;
-                	} 	
+                    mHandler.obtainMessage(BluetoothController.MESSAGE_READ, bytes, -1, buffer)
+                    	.sendToTarget();
+//                	ByteArrayInputStream bis = new ByteArrayInputStream(buffer);
+//                	DataInputStream dis = new DataInputStream(bis);
+//                	int head = dis.readInt();
+//                	switch (head) {
+//                	case Constants.TEXT_DATA:
+//                		// Send the obtained bytes to the UI Activity
+//                        mHandler.obtainMessage(BluetoothController.MESSAGE_READ, bytes, -1, buffer)
+//                                .sendToTarget();
+//                		break;
+//                	case Constants.CONTROL_DATA:
+//                		int i = dis.readInt();
+//                    	float f = dis.readFloat();
+//                    	double d = dis.readDouble();
+//                    	System.out.print(i);
+//                		break;
+//                	} 	
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);
                     connectionLost();

@@ -333,7 +333,9 @@ public class GAController implements OnTouchListener {
 		return false;
 	}
 	
-	//Bluetooth create virtual method
+	/**
+	 * Virtual method. Subclass should implement it
+	 */
 	public void createBluetooth() {
 		
 	}
