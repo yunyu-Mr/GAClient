@@ -1,19 +1,24 @@
 package org.gaminganywhere.gaclient.util;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
+import org.gaminganywhere.gaclient.util.Pad.PartitionEventListener;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+
+import android.widget.RelativeLayout;
+import android.widget.Toast;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+
 import android.util.Log;
 
-public class BluetoothController{
+public class BluetoothController extends GAController{
 	// Debugging
     private static final String TAG = "BluetoothController";
     private static final boolean D = true;
@@ -49,8 +54,7 @@ public class BluetoothController{
     
     //Constructor
 	public BluetoothController(Context context) {
-		this.context = context;
-		relativeLayout = new RelativeLayout(getContext());
+		super(context);
 	}
 
 	public static String getName() {
@@ -61,11 +65,11 @@ public class BluetoothController{
 		return "Bluetooth";
 	}
 	
-	public Context getContext() {
-		return this.context;
-	}
+//	public Context getContext() {
+//		return this.context;
+//	}
 	
-	public void CreateBluetooth() {
+	public void createBluetooth() {
 		Log.i(TAG, "bt create");
         // Get local Bluetooth adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -156,8 +160,6 @@ public class BluetoothController{
 //			}
 //		}
 //	}
-	
-	
 
 
 }

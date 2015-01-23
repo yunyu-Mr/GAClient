@@ -332,4 +332,9 @@ public class GAController implements OnTouchListener {
 		}
 		return false;
 	}
+	
+	//Bluetooth create virtual method
+	public void createBluetooth() {
+		
+	}
 }

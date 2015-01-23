@@ -219,9 +219,11 @@ public class PlayerActivity extends Activity implements SurfaceHolder.Callback, 
 			} 
 			//SMTech 2015-01-21
 			else if (cname.equals(BluetoothController.getName())) {
-				BluetoothController btController = new BluetoothController(this);
-				btController.CreateBluetooth();
-				controller = new GAController(this);
+//				BluetoothController btController = new BluetoothController(this);
+//				btController.CreateBluetooth();
+				controller = new BluetoothController(this);
+				controller.createBluetooth();
+//				controller = new GAController(this);
 			}
 			else {
 				controller = new GAControllerBasic(this);
