@@ -11,6 +11,7 @@ import android.os.Message;
 
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.bluetooth.BluetoothAdapter;
@@ -169,11 +170,110 @@ public class BluetoothController extends GAController{
         		this.sendMouseKey(true, mouseButton, this.getMouseX(), this.getMouseY() );
         		this.sendMouseKey(false, mouseButton, this.getMouseX(), this.getMouseY());
         		break;
+        	case Constants.Arrow_Key:
+        		int action = dataInput.readInt();
+        		int part = dataInput.readInt();
+        		this.emulateArrowKeys(action, part);
+        		break;
         	}
         }catch (IOException e) {
         	Log.e(TAG, "io error", e);
         }
     }
+    
+	private boolean keyLeft = false;
+	private boolean keyRight = false;
+	private boolean keyUp = false;
+	private boolean keyDown = false;
+	private void emulateArrowKeys(int action, int part) {
+		boolean myKeyLeft, myKeyRight, myKeyUp, myKeyDown;
+		myKeyLeft = keyLeft;
+		myKeyRight = keyRight;
+		myKeyUp = keyUp;
+		myKeyDown = keyDown;
+		switch(action) {
+		case MotionEvent.ACTION_DOWN:
+		case MotionEvent.ACTION_POINTER_DOWN:
+		case MotionEvent.ACTION_MOVE:
+			// partition mappings for keys:
+			// - up: 11, 12, 1, 2
+			// - right: 2, 3, 4, 5
+			// - down: 5, 6, 7, 8
+			// - left: 8, 9, 10, 11
+			switch(part) {
+			case 0:
+				myKeyUp = myKeyRight = myKeyDown = myKeyLeft = false;
+				break;
+			// single keys
+			case 12: case 1:
+				myKeyUp = true;
+				myKeyRight = myKeyDown = myKeyLeft = false;
+				break;
+			case 3: case 4:
+				myKeyRight = true;
+				myKeyUp = myKeyDown = myKeyLeft = false;
+				break;
+			case 6: case 7:
+				myKeyDown = true;
+				myKeyUp = myKeyRight = myKeyLeft = false;
+				break;
+			case 9: case 10:
+				myKeyLeft = true;
+				myKeyUp = myKeyRight = myKeyDown = false;
+				break;
+			// hybrid keys
+			case 2:
+				myKeyUp = myKeyRight = true;
+				myKeyDown = myKeyLeft = false;
+				break;
+			case 5:
+				myKeyRight = myKeyDown = true;
+				myKeyUp = myKeyLeft = false;
+				break;
+			case 8:
+				myKeyDown = myKeyLeft = true;
+				myKeyUp = myKeyRight = false;
+				break;
+			case 11:
+				myKeyLeft = myKeyUp = true;
+				myKeyRight = myKeyDown = false;
+				break;
+			}
+			break;
+		case MotionEvent.ACTION_UP:
+		case MotionEvent.ACTION_POINTER_UP:
+			if(keyLeft)
+				this.sendKeyEvent(false, SDL2.Scancode.LEFT, 0, 0, 0);
+			if(keyRight)
+				this.sendKeyEvent(false, SDL2.Scancode.RIGHT, 0, 0, 0);
+			if(keyUp)
+				this.sendKeyEvent(false, SDL2.Scancode.UP, 0, 0, 0);
+			if(keyDown)
+				this.sendKeyEvent(false, SDL2.Scancode.DOWN, 0, 0, 0);
+			myKeyUp = myKeyRight = myKeyDown = myKeyLeft = false;
+			break;
+		}
+		if(myKeyUp != keyUp) {
+			this.sendKeyEvent(myKeyUp, SDL2.Scancode.UP, SDL2.Keycode.UP, 0, 0);
+			//Log.d("ga_log", String.format("Key up %s", myKeyUp ? "down" : "up"));
+		}
+		if(myKeyDown != keyDown) {
+			this.sendKeyEvent(myKeyDown, SDL2.Scancode.DOWN, SDL2.Keycode.DOWN, 0, 0);
+			//Log.d("ga_log", String.format("Key down %s", myKeyDown ? "down" : "up"));
+		}
+		if(myKeyLeft != keyLeft) {
+			this.sendKeyEvent(myKeyLeft, SDL2.Scancode.LEFT, SDL2.Keycode.LEFT, 0, 0);
+			//Log.d("ga_log", String.format("Key left %s", myKeyLeft ? "down" : "up"));
+		}
+		if(myKeyRight != keyRight) {
+			this.sendKeyEvent(myKeyRight, SDL2.Scancode.RIGHT, SDL2.Keycode.RIGHT, 0, 0);
+			//Log.d("ga_log", String.format("Key right %s", myKeyRight ? "down" : "up"));
+		}
+		keyUp = myKeyUp;
+		keyDown = myKeyDown;
+		keyLeft = myKeyLeft;
+		keyRight = myKeyRight;
+	}
 	
 //	public void onActivityResult(int requestCode, int resultCode, Intent data){
 //		switch (requestCode) {
