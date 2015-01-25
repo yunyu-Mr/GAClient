@@ -15,5 +15,6 @@ public interface Constants {
 	public final int KEY_EVENT = 1;
 	public final int MOUSE_KEY = 2;
 	public final int MOUSE_MOTION = 3;
-	public final int Arrow_Key = 4;
+	public final int ARROW_KEY = 4;
+	public final int ACCELERATION = 5;
 }

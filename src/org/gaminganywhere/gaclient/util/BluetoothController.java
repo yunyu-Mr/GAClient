@@ -158,7 +158,10 @@ public class BluetoothController extends GAController{
         }
     };
     
-    
+    /**
+     * Bluetooth receive data
+     * @param buffer
+     */
     private void controlSense(byte[] buffer) {
         ByteArrayInputStream byteInput = new ByteArrayInputStream(buffer);
         DataInputStream dataInput = new DataInputStream(byteInput);
@@ -170,10 +173,16 @@ public class BluetoothController extends GAController{
         		this.sendMouseKey(true, mouseButton, this.getMouseX(), this.getMouseY() );
         		this.sendMouseKey(false, mouseButton, this.getMouseX(), this.getMouseY());
         		break;
-        	case Constants.Arrow_Key:
+        	case Constants.ARROW_KEY:
         		int action = dataInput.readInt();
         		int part = dataInput.readInt();
         		this.emulateArrowKeys(action, part);
+        		break;
+        	case Constants.ACCELERATION:
+        		float x = dataInput.readFloat();
+        		float y = dataInput.readFloat();
+        		float z = dataInput.readFloat();
+        		this.emulateAcceleration(x, y);
         		break;
         	}
         }catch (IOException e) {
@@ -253,6 +262,57 @@ public class BluetoothController extends GAController{
 			myKeyUp = myKeyRight = myKeyDown = myKeyLeft = false;
 			break;
 		}
+		if(myKeyUp != keyUp) {
+			this.sendKeyEvent(myKeyUp, SDL2.Scancode.UP, SDL2.Keycode.UP, 0, 0);
+			//Log.d("ga_log", String.format("Key up %s", myKeyUp ? "down" : "up"));
+		}
+		if(myKeyDown != keyDown) {
+			this.sendKeyEvent(myKeyDown, SDL2.Scancode.DOWN, SDL2.Keycode.DOWN, 0, 0);
+			//Log.d("ga_log", String.format("Key down %s", myKeyDown ? "down" : "up"));
+		}
+		if(myKeyLeft != keyLeft) {
+			this.sendKeyEvent(myKeyLeft, SDL2.Scancode.LEFT, SDL2.Keycode.LEFT, 0, 0);
+			//Log.d("ga_log", String.format("Key left %s", myKeyLeft ? "down" : "up"));
+		}
+		if(myKeyRight != keyRight) {
+			this.sendKeyEvent(myKeyRight, SDL2.Scancode.RIGHT, SDL2.Keycode.RIGHT, 0, 0);
+			//Log.d("ga_log", String.format("Key right %s", myKeyRight ? "down" : "up"));
+		}
+		keyUp = myKeyUp;
+		keyDown = myKeyDown;
+		keyLeft = myKeyLeft;
+		keyRight = myKeyRight;
+	}
+	
+	/**
+	 * Accelerator
+	 */
+	private void emulateAcceleration(float x, float y) {
+		boolean myKeyLeft, myKeyRight, myKeyUp, myKeyDown;
+		myKeyLeft = keyLeft;
+		myKeyRight = keyRight;
+		myKeyUp = keyUp;
+		myKeyDown = keyDown;
+    	if (x < -4) {
+    		myKeyUp = true;
+    		myKeyDown = false;
+    	} else if (x > 4) {
+    		myKeyUp = false;
+    		myKeyDown = true;
+    	}else {
+    		myKeyUp = false;
+    		myKeyDown = false;
+    	}
+    	if (y < -4){
+    		myKeyLeft = true;
+    		myKeyRight = false;
+    	}else if (y > 4) {
+    		myKeyLeft = false;
+    		myKeyRight = true;
+    	}else {
+    		myKeyLeft = false;
+    		myKeyRight = false;
+    	}
 		if(myKeyUp != keyUp) {
 			this.sendKeyEvent(myKeyUp, SDL2.Scancode.UP, SDL2.Keycode.UP, 0, 0);
 			//Log.d("ga_log", String.format("Key up %s", myKeyUp ? "down" : "up"));
