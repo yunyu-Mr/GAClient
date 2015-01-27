@@ -293,20 +293,20 @@ public class BluetoothController extends GAController{
 		myKeyRight = keyRight;
 		myKeyUp = keyUp;
 		myKeyDown = keyDown;
-    	if (x < -4) {
+    	if (x < -4.0) {
     		myKeyUp = true;
     		myKeyDown = false;
-    	} else if (x > 4) {
+    	} else if (x > 4.0) {
     		myKeyUp = false;
     		myKeyDown = true;
     	}else {
     		myKeyUp = false;
     		myKeyDown = false;
     	}
-    	if (y < -4){
+    	if (y < -4.0){
     		myKeyLeft = true;
     		myKeyRight = false;
-    	}else if (y > 4) {
+    	}else if (y > 4.0) {
     		myKeyLeft = false;
     		myKeyRight = true;
     	}else {
