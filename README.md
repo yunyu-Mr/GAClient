@@ -9,7 +9,7 @@ GamingAnywhere client for Android
 5.Ok, Enjoy gaming!  
   
 ### BluetoothController
-1.Accelerometer  
+1.Accelerometer(Gravity sensor)  
 2.Pad  
 3.Key: SPACE, ESC  
 4.Mouse: LeftClick, RightClick  
@@ -22,6 +22,7 @@ Remember add bluetooth permission in AndroidManifest.xml
 <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />`  
 If not add permission, app will crash when require bluetooth.  
   
+### About code
 ### Class BluetoothController:
 ControlSense() - judge what control type that bluetooth receive and then 
                  send via GAClient
