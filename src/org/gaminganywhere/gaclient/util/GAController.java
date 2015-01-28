@@ -193,8 +193,8 @@ public class GAController implements OnTouchListener {
 		switch(action) {
 		case MotionEvent.ACTION_DOWN:
 		//case MotionEvent.ACTION_POINTER_DOWN:
-			sendKeyEvent(true, scancode, keycode, mod, unicode);
-			break;
+         	sendKeyEvent(true, scancode, keycode, mod, unicode);
+			break; 
 		case MotionEvent.ACTION_UP:
 		//case MotionEvent.ACTION_POINTER_UP:
 			sendKeyEvent(false, scancode, keycode, mod, unicode);

@@ -155,7 +155,7 @@ public class BluetoothController extends GAController{
                                Toast.LENGTH_SHORT).show();
                 break;
             }
-        }
+         }
     };
     
     /**
@@ -165,19 +165,43 @@ public class BluetoothController extends GAController{
     private void controlSense(byte[] buffer) {
         ByteArrayInputStream byteInput = new ByteArrayInputStream(buffer);
         DataInputStream dataInput = new DataInputStream(byteInput);
+        int action;
         try{
         	int head = dataInput.readInt();
+        	
         	switch (head) {
+        	
         	case Constants.MOUSE_KEY:
+        		action = dataInput.readInt();
         		int mouseButton = dataInput.readInt();
-        		this.sendMouseKey(true, mouseButton, this.getMouseX(), this.getMouseY() );
-        		this.sendMouseKey(false, mouseButton, this.getMouseX(), this.getMouseY());
-        		break;
+        		switch (action) {
+        		case MotionEvent.ACTION_DOWN:
+        			sendMouseKey(true, mouseButton, getMouseX(), getMouseY() );
+        			break;
+        		case MotionEvent.ACTION_UP:
+        			sendMouseKey(false, mouseButton, getMouseX(), getMouseY());
+        			break;
+        		} break;
+        		
+        	case Constants.KEY_EVENT:
+        		action = dataInput.readInt();
+        		int scancode = dataInput.readInt();
+        		int keycode = dataInput.readInt();
+        		switch (action) {
+        		case MotionEvent.ACTION_DOWN:
+        			sendKeyEvent(true, scancode, keycode, 0, 0);
+        			break;
+        		case MotionEvent.ACTION_UP:
+        			sendKeyEvent(false, scancode, keycode, 0, 0);
+        			break;
+        		} break;
+        		
         	case Constants.ARROW_KEY:
-        		int action = dataInput.readInt();
+        		action = dataInput.readInt();
         		int part = dataInput.readInt();
         		this.emulateArrowKeys(action, part);
         		break;
+        		
         	case Constants.ACCELERATION:
         		float x = dataInput.readFloat();
         		float y = dataInput.readFloat();
@@ -189,6 +213,12 @@ public class BluetoothController extends GAController{
         	Log.e(TAG, "io error", e);
         }
     }
+    
+//    private void emulateMouseButton(int m) {
+//    	int mMouseButton = m;
+//    	this.sendMouseKey(true, mMouseButton, getMouseX(), getMouseY());
+//    	this.sendMouseKey(false, mMouseButton, getMouseX(), getMouseY());
+//    }
     
 	private boolean keyLeft = false;
 	private boolean keyRight = false;
