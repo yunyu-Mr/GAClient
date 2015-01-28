@@ -1,6 +1,20 @@
 # GAClient
 GamingAnywhere client for Android
 
+### Instructions
+1.Open bluetooth  
+2.Open GAClient and choose "Bluetooth"  
+3.Open BluetoothClient(BluetoothChat), click play  
+4.Choose the device that you want to connect  
+5.Ok, Enjoy gaming!  
+  
+### BluetoothController
+1.Accelerometer  
+2.Pad  
+3.Key: SPACE, ESC  
+4.Mouse: LeftClick, RightClick  
+  
+
 ### Attension
 Remember add bluetooth permission in AndroidManifest.xml
 `<!-- Bluetooth permission -->  
