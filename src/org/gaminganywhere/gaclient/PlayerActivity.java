@@ -45,6 +45,7 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -234,6 +235,159 @@ public class PlayerActivity extends Activity implements SurfaceHolder.Callback, 
 		setContentView(topLayout);
 	}
 
+	/**
+     * add new code
+     */
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if(keyCode == 19){
+			controller.sendKeyEvent(true, 1073741906, 1073741906, 0, 0);
+			return true;
+		}
+		
+		if(keyCode == 20){
+			controller.sendKeyEvent(true, 1073741905, 1073741905, 0, 0);
+			return true;
+		}
+		
+		if(keyCode == 21){
+			controller.sendKeyEvent(true, 1073741904, 1073741904, 0, 0);
+			return true;
+		}
+		
+		if(keyCode == 22){
+			controller.sendKeyEvent(true, 1073741903, 1073741903, 0, 0);
+			return true;
+		}
+		// button 0 map space
+		if(keyCode == 100){
+			controller.sendKeyEvent(true, 32, 32, 0, 0);
+			return true;
+		}
+		//button 1 map click
+		if(keyCode == 97 ){
+			controller.sendMouseKey(true, 1, controller.getMouseX(), controller.getMouseY());
+			return true;
+			
+		}
+		//button 2 map leftShift
+		if(keyCode == 96){
+			controller.sendKeyEvent(true, 1073742049, 1073742049, 0, 0);
+			return true;
+		}
+		//button 3 map mouseWheel
+		if(keyCode == 99){
+			controller.sendMouseWheel(controller.getMouseX(), controller.getMouseY());
+			return true;
+		}
+		//button 4 map left
+		if(keyCode == 102){
+			controller.sendMouseMotion(0, 0, -50, 0, 1, true);;
+			return true;
+		}
+		//button 5 map right
+		if(keyCode == 103){
+			controller.sendMouseMotion(0, 0, 50, 0, 1, true);;
+			return true;
+		}
+		//button 6 map up
+		if(keyCode == 104){
+			controller.sendMouseMotion(0, 0, 0, 50, 1, true);;
+			return true;
+		}
+		//button 7 map down
+		if(keyCode == 105){
+			controller.sendMouseMotion(0, 0, 0, -50, 1, true);;
+			return true;
+		}
+		//button 8 map esc
+		if(keyCode == 109){
+			controller.sendKeyEvent(true, 27, 27, 0, 0);
+			return true;
+		}
+		//button 9 map enter
+		if(keyCode == 108){
+			controller.sendKeyEvent(true, 13, 13, 0, 0);
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+	
+	@Override
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if(keyCode == 19){
+			controller.sendKeyEvent(false, 1073741906, 1073741906, 0, 0);
+			return true;
+		}
+		
+		if(keyCode == 20){
+			controller.sendKeyEvent(false, 1073741905, 1073741905, 0, 0);
+			return true;
+		}
+		
+		if(keyCode == 21){
+			controller.sendKeyEvent(false, 1073741904, 1073741904, 0, 0);
+			return true;
+		}
+		
+		if(keyCode == 22){
+			controller.sendKeyEvent(false, 1073741903, 1073741903, 0, 0);
+			return true;
+		}
+		// button 0 map space
+		if(keyCode == 100){
+			controller.sendKeyEvent(false, 32, 32, 0, 0);
+			return true;
+		}
+		//button 1 map click
+		if(keyCode == 97){
+				controller.sendMouseKey(false, 1, controller.getMouseX(), controller.getMouseY());
+				return true;
+		}
+		//button 2 map leftShift
+		if(keyCode == 96){
+			controller.sendKeyEvent(false, 1073742049, 1073742049, 0, 0);
+			return true;
+		}
+		//button 4 map left
+		if(keyCode == 102){
+			controller.sendMouseMotion(0, 0, -50, 0, 1, false);
+			return true;
+		}
+		//button 5 map right
+		if(keyCode == 103){
+			controller.sendMouseMotion(0, 0, 50, 0, 1, false);
+			return true;
+		}
+		//button 6 map up
+		if(keyCode == 104){
+			controller.sendMouseMotion(0, 0, 0, 50, 1, false);
+			return true;
+		}
+		//button 7 map down
+		if(keyCode == 105){
+			controller.sendMouseMotion(0, 0, 0, -50, 1, false);;
+			return true;
+		}
+		//button 8 map esc
+		if(keyCode == 109){
+			controller.sendKeyEvent(false, 27, 27, 0, 0);
+			return true;
+		}
+		//button 9 map enter
+		if(keyCode == 108){
+			controller.sendKeyEvent(false, 13, 13, 0, 0);
+			return true;
+		}
+		return super.onKeyUp(keyCode, event);
+	}
+	
+	/**
+	 * new
+	 */
+	
 	@Override
 	public void onBackPressed() {
 		this.setResult(0);
