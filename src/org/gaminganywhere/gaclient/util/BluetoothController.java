@@ -208,6 +208,11 @@ public class BluetoothController extends GAController{
         		float z = dataInput.readFloat();
         		this.emulateAcceleration(x, y);
         		break;
+        		
+        	case Constants.GESTURE_EVENT:
+        		int gesture = dataInput.readInt();
+        		this.emulateGesture(gesture);
+        		break;
         	}
         }catch (IOException e) {
         	Log.e(TAG, "io error", e);
@@ -363,6 +368,40 @@ public class BluetoothController extends GAController{
 		keyDown = myKeyDown;
 		keyLeft = myKeyLeft;
 		keyRight = myKeyRight;
+	}
+	
+	/*
+	 * emulate gesture type
+	 */
+	private void emulateGesture(int gesture) {
+		if (gesture == 0 ) return;
+		
+		switch (gesture) {
+		case Constants.GESTURE_HIT:
+			if (D) Log.e(TAG,"++GestureEvent: HIT++");
+			Toast.makeText(getContext(), "Hit", Toast.LENGTH_SHORT).show();
+			break;
+		case Constants.GESTURE_PUSH:
+			if (D) Log.e(TAG,"++GestureEvent: PUSH++");
+			Toast.makeText(getContext(), "Push", Toast.LENGTH_SHORT).show();
+			break;
+		case Constants.GESTURE_CUT:
+			if (D) Log.e(TAG,"++GestureEvent: CUT++");
+			Toast.makeText(getContext(), "Cut", Toast.LENGTH_SHORT).show();
+			break;
+		case Constants.GESTURE_PRESS:
+			if (D) Log.e(TAG,"++GestureEvent: PRESS++");
+			Toast.makeText(getContext(), "Press", Toast.LENGTH_SHORT).show();
+			break;
+		case Constants.GESTURE_UP:
+			if (D) Log.e(TAG,"++GestureEvent: UP++");
+			Toast.makeText(getContext(), "Up", Toast.LENGTH_SHORT).show();
+			break;
+		case Constants.GESTURE_CIRCLE:
+			if (D) Log.e(TAG,"++GestureEvent: CIRCLE++");
+			Toast.makeText(getContext(), "Circle", Toast.LENGTH_SHORT).show();
+			break;
+		}
 	}
 	
 //	public void onActivityResult(int requestCode, int resultCode, Intent data){

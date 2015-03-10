@@ -17,4 +17,14 @@ public interface Constants {
 	public final int MOUSE_MOTION = 3;
 	public final int ARROW_KEY = 4;
 	public final int ACCELERATION = 5;
+	public final int GESTURE_EVENT = 6;
+	
+	//Gesture event type
+	public final int GESTURE_HIT = 1;
+	public final int GESTURE_PUSH = 2;
+	public final int GESTURE_CHOP = 3;
+	public final int GESTURE_CIRCLE = 4;
+	public final int GESTURE_UP = 5;
+	public final int GESTURE_PRESS = 6;
+	public final int GESTURE_CUT = 7;
 }
