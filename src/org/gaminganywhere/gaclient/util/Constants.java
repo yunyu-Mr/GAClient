@@ -21,10 +21,11 @@ public interface Constants {
 	
 	//Gesture event type
 	public final int GESTURE_HIT = 1;
-	public final int GESTURE_PUSH = 2;
-	public final int GESTURE_CHOP = 3;
-	public final int GESTURE_CIRCLE = 4;
-	public final int GESTURE_UP = 5;
-	public final int GESTURE_PRESS = 6;
-	public final int GESTURE_CUT = 7;
+	public final int GESTURE_GO = 2;
+	public final int GESTURE_LEFT = 3;
+	public final int GESTURE_RIGHT = 4;
+	public final int GESTURE_CIRCLE = 5;
+	public final int GESTURE_UP = 6;
+	public final int GESTURE_PRESS = 7;
+	public final int GESTURE_CUT = 8;
 }

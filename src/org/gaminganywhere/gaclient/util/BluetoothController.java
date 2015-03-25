@@ -211,7 +211,8 @@ public class BluetoothController extends GAController{
         		
         	case Constants.GESTURE_EVENT:
         		int gesture = dataInput.readInt();
-        		this.emulateGesture(gesture);
+        		action = dataInput.readInt();
+        		this.emulateGesture(gesture,action);
         		break;
         	}
         }catch (IOException e) {
@@ -372,35 +373,83 @@ public class BluetoothController extends GAController{
 	
 	/*
 	 * emulate gesture type
+	 * 
+	 * delayGestureEvent for delay execute keyUp event
 	 */
-	private void emulateGesture(int gesture) {
+	private Handler mGesHandler = new Handler();
+	private final int delay = 800;
+	private void delayGestureEvent(final int scancode, final int keycode) {
+	    this.mGesHandler.postDelayed(new Runnable(){    
+	        public void run() {    
+	        //execute the task  
+	        sendKeyEvent(false, scancode, keycode, 0, 0);
+	        }
+	     }, delay);
+	}
+	private void emulateGesture(int gesture, int action) {
 		if (gesture == 0 ) return;
 		
 		switch (gesture) {
 		case Constants.GESTURE_HIT:
 			if (D) Log.e(TAG,"++GestureEvent: HIT++");
-			Toast.makeText(getContext(), "Hit", Toast.LENGTH_SHORT).show();
+			if (D) Log.e(TAG,"hit action"+action);
+			if (action == 1) {
+				sendMouseKey(true, SDL2.Button.LEFT, getMouseX(), getMouseY() );
+			    this.mGesHandler.postDelayed(new Runnable(){
+			        public void run() {    
+			        //execute the task  
+			        	sendMouseKey(false, SDL2.Button.LEFT, getMouseX(), getMouseY() );
+			        }
+			     }, 500);
+				Toast.makeText(getContext(), "Hit", Toast.LENGTH_SHORT).show();
+			}
 			break;
-		case Constants.GESTURE_PUSH:
-			if (D) Log.e(TAG,"++GestureEvent: PUSH++");
-			Toast.makeText(getContext(), "Push", Toast.LENGTH_SHORT).show();
+		case Constants.GESTURE_GO:
+			if (action == 1) {
+				if (D) Log.e(TAG,"go action"+action);
+				sendKeyEvent(true, SDL2.Scancode.UP, SDL2.Keycode.UP, 0, 0);
+				delayGestureEvent(SDL2.Scancode.UP, SDL2.Keycode.UP);
+			}
+			Toast.makeText(getContext(), "GO", Toast.LENGTH_SHORT).show();
 			break;
-		case Constants.GESTURE_CUT:
-			if (D) Log.e(TAG,"++GestureEvent: CUT++");
-			Toast.makeText(getContext(), "Cut", Toast.LENGTH_SHORT).show();
+		case Constants.GESTURE_LEFT:
+			if (action == 1) {
+				sendKeyEvent(true, SDL2.Scancode.LEFT, SDL2.Keycode.LEFT, 0, 0);
+				delayGestureEvent(SDL2.Scancode.LEFT, SDL2.Keycode.LEFT);
+			}
+			Toast.makeText(getContext(), "Left", Toast.LENGTH_SHORT).show();
 			break;
-		case Constants.GESTURE_PRESS:
-			if (D) Log.e(TAG,"++GestureEvent: PRESS++");
-			Toast.makeText(getContext(), "Press", Toast.LENGTH_SHORT).show();
+		case Constants.GESTURE_RIGHT:
+			if (action == 1) {
+				sendKeyEvent(true, SDL2.Scancode.RIGHT, SDL2.Keycode.RIGHT, 0, 0);
+				delayGestureEvent(SDL2.Scancode.RIGHT, SDL2.Keycode.RIGHT);
+			}
+			Toast.makeText(getContext(), "Right", Toast.LENGTH_SHORT).show();
 			break;
+//		case Constants.GESTURE_CUT:
+//			if (D) Log.e(TAG,"++GestureEvent: CUT++");
+//			sendKeyEvent(true,SDL2.Scancode.N,SDL2.Keycode.n,0,0);
+//			sendKeyEvent(false,SDL2.Scancode.N, SDL2.Keycode.n, 0, 0);
+//			Toast.makeText(getContext(), "Cut", Toast.LENGTH_SHORT).show();
+//			break;
+//		case Constants.GESTURE_PRESS:
+//			if (D) Log.e(TAG,"++GestureEvent: PRESS++");
+//			Toast.makeText(getContext(), "Press", Toast.LENGTH_SHORT).show();
+//			break;
 		case Constants.GESTURE_UP:
 			if (D) Log.e(TAG,"++GestureEvent: UP++");
-			Toast.makeText(getContext(), "Up", Toast.LENGTH_SHORT).show();
+			if (action == 1) {
+				sendKeyEvent(true,SDL2.Scancode.SPACE,SDL2.Keycode.SPACE,0,0);
+				this.delayGestureEvent(SDL2.Scancode.SPACE,SDL2.Keycode.SPACE);
+				Toast.makeText(getContext(), "Up", Toast.LENGTH_SHORT).show();
+			}
 			break;
-		case Constants.GESTURE_CIRCLE:
-			if (D) Log.e(TAG,"++GestureEvent: CIRCLE++");
-			Toast.makeText(getContext(), "Circle", Toast.LENGTH_SHORT).show();
-			break;
+//		case Constants.GESTURE_CIRCLE:
+//			if (D) Log.e(TAG,"++GestureEvent: CIRCLE++");
+//			sendKeyEvent(true,SDL2.Scancode.C,SDL2.Keycode.c,0,0);
+//			sendKeyEvent(false,SDL2.Scancode.C, SDL2.Keycode.c, 0, 0);
+//			Toast.makeText(getContext(), "Circle", Toast.LENGTH_SHORT).show();
+//			break;
 		}
 	}
 	
