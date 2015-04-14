@@ -24,6 +24,12 @@ Remember add bluetooth permission in AndroidManifest.xml
 <uses-permission android:name="android.permission.BLUETOOTH" />  
 <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />`  
 If not add permission, app will crash when require bluetooth.  
+
+### Bug Report
+Once you find that you can't connect to GAServer, 
+first you should try to restart the running game( restart the shell too), 
+second you should try to reboot your android device.  
+Good luck!
   
 ### About code
 ### Class BluetoothController:
