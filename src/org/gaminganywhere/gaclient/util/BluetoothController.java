@@ -379,9 +379,9 @@ public class BluetoothController extends GAController{
 	private Handler mGesHandler = new Handler();
 	private final int delay = 800;
 	private void delayGestureEvent(final int scancode, final int keycode) {
-	    this.mGesHandler.postDelayed(new Runnable(){    
-	        public void run() {    
-	        //execute the task  
+	    this.mGesHandler.postDelayed(new Runnable(){
+	        public void run() {
+	        //execute the task
 	        sendKeyEvent(false, scancode, keycode, 0, 0);
 	        }
 	     }, delay);
@@ -409,22 +409,22 @@ public class BluetoothController extends GAController{
 				if (D) Log.e(TAG,"go action"+action);
 				sendKeyEvent(true, SDL2.Scancode.UP, SDL2.Keycode.UP, 0, 0);
 				delayGestureEvent(SDL2.Scancode.UP, SDL2.Keycode.UP);
+				Toast.makeText(getContext(), "GO", Toast.LENGTH_SHORT).show();
 			}
-			Toast.makeText(getContext(), "GO", Toast.LENGTH_SHORT).show();
 			break;
 		case Constants.GESTURE_LEFT:
 			if (action == 1) {
 				sendKeyEvent(true, SDL2.Scancode.LEFT, SDL2.Keycode.LEFT, 0, 0);
 				delayGestureEvent(SDL2.Scancode.LEFT, SDL2.Keycode.LEFT);
+				Toast.makeText(getContext(), "Left", Toast.LENGTH_SHORT).show();
 			}
-			Toast.makeText(getContext(), "Left", Toast.LENGTH_SHORT).show();
 			break;
 		case Constants.GESTURE_RIGHT:
 			if (action == 1) {
 				sendKeyEvent(true, SDL2.Scancode.RIGHT, SDL2.Keycode.RIGHT, 0, 0);
 				delayGestureEvent(SDL2.Scancode.RIGHT, SDL2.Keycode.RIGHT);
+				Toast.makeText(getContext(), "Right", Toast.LENGTH_SHORT).show();
 			}
-			Toast.makeText(getContext(), "Right", Toast.LENGTH_SHORT).show();
 			break;
 //		case Constants.GESTURE_CUT:
 //			if (D) Log.e(TAG,"++GestureEvent: CUT++");
@@ -440,7 +440,7 @@ public class BluetoothController extends GAController{
 			if (D) Log.e(TAG,"++GestureEvent: UP++");
 			if (action == 1) {
 				sendKeyEvent(true,SDL2.Scancode.SPACE,SDL2.Keycode.SPACE,0,0);
-				this.delayGestureEvent(SDL2.Scancode.SPACE,SDL2.Keycode.SPACE);
+//				this.delayGestureEvent(SDL2.Scancode.SPACE,SDL2.Keycode.SPACE);
 				Toast.makeText(getContext(), "Up", Toast.LENGTH_SHORT).show();
 			}
 			break;

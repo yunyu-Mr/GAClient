@@ -34,7 +34,6 @@ import org.gaminganywhere.gaclient.util.GAControllerPadABXY;
 import org.gaminganywhere.gaclient.util.BluetoothController;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;

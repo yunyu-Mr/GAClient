@@ -19,7 +19,7 @@ Saoming
   
 
 ### Attension
-Remember add bluetooth permission in AndroidManifest.xml
+Remember add bluetooth permission in AndroidManifest.xml  
 `<!-- Bluetooth permission -->  
 <uses-permission android:name="android.permission.BLUETOOTH" />  
 <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />`  
